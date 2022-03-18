@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import TextField from '@mui/material/TextField'
@@ -16,17 +17,28 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { keywordList, diagnosisList } from '../mockdata/mainPage'
 
+import { get_all_keywords, get_diagnosis_result } from '../services'
+
 function MainScreen() {
-    const [input, setInput] = useState<string>('')
-    const [keywords, setKeywords] = useState<string[]>(keywordList)
+    const [inputSymptoms, setInputSymtoms] = useState<string>('')
+    const [keywords, setKeywords] = useState<string[]>([])
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
     const [diagnosisResult, setDiagnosisResult] = useState(diagnosisList)
 
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(event.target.value)
+    const handleInputSymtoms = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputSymtoms(event.target.value)
     }
-    const sendInput = () => {
-        console.log('input', input)
+    const getKeywords = () => {
+        axios.get(get_all_keywords, {
+            params: {
+                symptoms: inputSymptoms
+            }
+        }).then(function (response) {
+            console.log(response.data.keywords);
+            setKeywords(response.data.keywords)
+        }).catch(function (error) {
+            console.log('error from send_symptoms');
+        });
     }
     const handleKeywordListItemClick = (index: number) => {
         setSelectedKeywords([...selectedKeywords, keywords[index]])
@@ -38,6 +50,17 @@ function MainScreen() {
     }
     const sendSelectedKeyword = () => {
         console.log('selectedKeywords', selectedKeywords)
+
+        axios.get(get_diagnosis_result, {
+            params: {
+                selected_keywords: selectedKeywords
+            }
+        }).then(function (response) {
+            console.log(response)
+            setDiagnosisResult(response.data.diagnosis_result)
+        }).catch(function (error) {
+            console.log('error from send_selected_keywords');
+        });
     }
     return (
         <div className='space-around'>
@@ -47,9 +70,9 @@ function MainScreen() {
                     <p>ขั้นตอนที่ 1: ใส่ข้อความระบุอาการผู้ป่วย</p>
                     <TextField
                         id="user-input"
-                        onChange={handleInput}
+                        onChange={handleInputSymtoms}
                     />
-                    <Button variant="contained" onClick={sendInput}>ตรวจจับคีย์เวิร์ด</Button>
+                    <Button variant="contained" onClick={getKeywords}>ตรวจจับคีย์เวิร์ด</Button>
                 </Card>
                 <Card className='space-around'>
 
@@ -124,9 +147,6 @@ function MainScreen() {
                     </TableContainer>
                 </Card>
             </div>
-
-
-
         </div>
     );
 }
