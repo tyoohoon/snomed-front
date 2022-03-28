@@ -16,7 +16,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { keywordList, diagnosisList } from '../mockdata/mainPage'
-
 import { get_all_keywords, get_diagnosis_result } from '../services'
 
 function MainScreen() {
@@ -63,20 +62,32 @@ function MainScreen() {
         });
     }
     return (
-        <div className='space-around'>
-            <div className='w-50p'>
-                <p>แบบฟอร์มการวินิจฉัยแยกโรคเบื้องต้นสำหรับบุคคลทั่วไป</p>
-                <Card variant="outlined" sx={{ minWidth: 275 }}>
-                    <p>ขั้นตอนที่ 1: ใส่ข้อความระบุอาการผู้ป่วย</p>
-                    <TextField
-                        id="user-input"
-                        onChange={handleInputSymtoms}
-                    />
-                    <Button variant="contained" onClick={getKeywords}>ตรวจจับคีย์เวิร์ด</Button>
+        <div className='mainscreen-container'>
+            <div>
+                <p className='section-title'>แบบฟอร์มการวินิจฉัยแยกโรคเบื้องต้นสำหรับบุคคลทั่วไป</p>
+                <Card variant="outlined" sx={{ minWidth: 275, marginBottom: '41px' }}>
+                    <div className='input-card'>
+                        <p style={{ alignSelf: 'flex-start' }}>ขั้นตอนที่ 1: ใส่ข้อความระบุอาการผู้ป่วย</p>
+                        <TextField
+                            id="user-input"
+                            onChange={handleInputSymtoms}
+                            placeholder='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
+                            sx={{
+                                width: 1,
+                                marginBottom: '8px',
+                            }}
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={getKeywords}
+                            sx={{
+                                width: '162.72px'
+                            }}
+                        >ตรวจจับคีย์เวิร์ด</Button>
+                    </div>
                 </Card>
-                <Card className='space-around'>
-
-                    <div>
+                <Card className='space-between' sx={{ minWidth: 275, marginBottom: '41px' }}>
+                    <div className='input-card'>
                         <p>ขั้นตอนที่ 2: เลือกอาการที่ต้องการนำไปวินิจฉัย</p>
                         <Card>
                             <p>คีย์เวิร์ด</p>
@@ -100,7 +111,7 @@ function MainScreen() {
                             </List>
                         </Card>
                     </div>
-                    <div>
+                    <div className='input-card'>
                         <p>ขั้นตอนที่ 3: กดปุ่ม “วินิจฉัย” เพื่อวินิจฉัยแยกโรคตามอาการ</p>
                         <Card>
                             <p>คีย์เวิร์ด</p>
@@ -115,9 +126,9 @@ function MainScreen() {
                         </Card>
                     </div>
                 </Card>
-            </div>
-            <div className='w-50p'>
-                <p>ตารางการวินิจฉัยแยกโรค</p>
+
+
+                <p className='section-title'>ตารางการวินิจฉัยแยกโรค</p>
                 <Card>
                     <TableContainer>
                         <Table sx={{ minWidth: 700 }} aria-label="spanning table">
@@ -147,8 +158,8 @@ function MainScreen() {
                     </TableContainer>
                 </Card>
             </div>
-        </div>
+        </div >
     );
 }
 
-export default MainScreen;
+export default MainScreen
