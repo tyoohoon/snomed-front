@@ -5,7 +5,11 @@ $text-color: #737B7D;
 
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400');
 
-html {font-size: 100%;} /*16px*/
+html {
+  font-size: 100%;
+}
+
+/*16px*/
 
 body {
   background: white;
@@ -15,9 +19,15 @@ body {
   color: #000000;
 }
 
-p {margin-bottom: 1rem;}
+p {
+  margin-bottom: 1rem;
+}
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin: 3rem 0 1.38rem;
   font-family: 'Noto Sans Thai', sans-serif;
   font-weight: 400;
@@ -29,15 +39,26 @@ h1 {
   font-size: 3.052rem;
 }
 
-h2 {font-size: 2.441rem;}
+h2 {
+  font-size: 2.441rem;
+}
 
-h3 {font-size: 1.953rem;}
+h3 {
+  font-size: 1.953rem;
+}
 
-h4 {font-size: 1.563rem;}
+h4 {
+  font-size: 1.563rem;
+}
 
-h5 {font-size: 1.25rem;}
+h5 {
+  font-size: 1.25rem;
+}
 
-small, .text_small {font-size: 0.8rem;}
+small,
+.text_small {
+  font-size: 0.8rem;
+}
 
 // ------------------------------------------------------------------
 
@@ -75,6 +96,7 @@ small, .text_small {font-size: 0.8rem;}
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -130,7 +152,8 @@ small, .text_small {font-size: 0.8rem;}
 }
 
 .mainscreen-container {
-  padding: 25px 200px 0 200px;
+  max-width: 750px;
+  margin: auto;
 }
 
 .section-title {

@@ -4,7 +4,7 @@ interface Diagnosis {
     diagnosis: string;
     probability: string;
     keyword: {
-        [key: string]: string,
+        [key: string]: Array<string>,
     };
 }
 

@@ -17,12 +17,28 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { keywordList, diagnosisList } from '../mockdata/mainPage'
 import { get_all_keywords, get_diagnosis_result } from '../services'
+import Divider from '@mui/material/Divider';
+import TablePagination from '@mui/material/TablePagination';
+import Tooltip from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 function MainScreen() {
     const [inputSymptoms, setInputSymtoms] = useState<string>('')
     const [keywords, setKeywords] = useState<string[]>([])
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
     const [diagnosisResult, setDiagnosisResult] = useState(diagnosisList)
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const handleInputSymtoms = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputSymtoms(event.target.value)
@@ -71,7 +87,8 @@ function MainScreen() {
                         <TextField
                             id="user-input"
                             onChange={handleInputSymtoms}
-                            placeholder='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
+                            // placeholder='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
+                            label='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
                             sx={{
                                 width: 1,
                                 marginBottom: '8px',
@@ -81,7 +98,9 @@ function MainScreen() {
                             variant="contained"
                             onClick={getKeywords}
                             sx={{
-                                width: '162.72px'
+                                width: '162.72px',
+                                background: 'rgba(196, 196, 196, 0.7)',
+                                borderRadius: '4px'
                             }}
                         >ตรวจจับคีย์เวิร์ด</Button>
                     </div>
@@ -133,22 +152,51 @@ function MainScreen() {
                     <TableContainer>
                         <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                             <TableHead>
-                                <TableRow>
-                                    <TableCell align="right">โรค</TableCell>
-                                    <TableCell align="right">ความเป็นไปได้</TableCell>
-                                    <TableCell align="right">คีย์เวิร์ด</TableCell>
+                                <TableRow style={{ backgroundColor: '#ABC4FF' }}>
+                                    {['โรค', 'ความเป็นไปได้', 'คีย์เวิร์ด'].map(label =>
+                                        <TableCell
+                                            align="center"
+                                            style={{ color: 'white' }}
+                                        >
+                                            {label}
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {diagnosisResult.map((row, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{row.diagnosis}</TableCell>
-                                        <TableCell>{row.probability}</TableCell>
-                                        <TableCell>
-                                            {Object.keys(row.keyword).map(key => (
-                                                <TableRow>
-                                                    {row.keyword[key]}
-                                                </TableRow>
+                                        <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.diagnosis}</TableCell>
+                                        <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.probability}</TableCell>
+                                        <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid', padding: 0 }}>
+                                            {Object.keys(row.keyword).map((key, index) => (
+                                                <div style={{ width: '100%' }}>
+                                                    {console.log('row.keyword[key]', row.keyword[key])}
+                                                    {index !== 0 && <Divider />}
+                                                    <div style={{ padding: '8px' }}>
+                                                        <span >{key}: </span>
+                                                        {
+                                                            row.keyword[key].map((keyword: string, i: number) => {
+                                                                return (
+                                                                    <>
+                                                                        {index === 2 && i === 0 && <Tooltip title="อาการที่พบในโรคนี้ แต่ไม่พบในตัวกรอง" placement="top">
+                                                                            <InfoOutlinedIcon />
+                                                                        </Tooltip>}
+                                                                        <Chip key={i} label={keyword} variant="outlined" sx={{
+                                                                            borderColor: 'black',
+                                                                            borderRadius: '7px',
+                                                                            marginRight: '7px',
+                                                                            marginBottom: '7px',
+                                                                            height: '31px',
+                                                                        }} />
+                                                                    </>
+
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+
+                                                </div>
                                             ))}
                                         </TableCell>
                                     </TableRow>
@@ -156,6 +204,15 @@ function MainScreen() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={diagnosisResult.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </Card>
             </div>
         </div >
