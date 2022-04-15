@@ -21,6 +21,9 @@ import Divider from '@mui/material/Divider';
 import TablePagination from '@mui/material/TablePagination';
 import Tooltip from '@mui/material/Tooltip';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function MainScreen() {
     const [inputSymptoms, setInputSymtoms] = useState<string>('')
@@ -94,59 +97,100 @@ function MainScreen() {
                                 marginBottom: '8px',
                             }}
                         />
-                        <Button
-                            variant="contained"
-                            onClick={getKeywords}
-                            sx={{
-                                width: '162.72px',
-                                background: 'rgba(196, 196, 196, 0.7)',
-                                borderRadius: '4px'
-                            }}
-                        >ตรวจจับคีย์เวิร์ด</Button>
+                        <div className='row-space-around'>
+                            <Button
+                                variant="contained"
+                                onClick={getKeywords}
+                                sx={{
+                                    width: '162.72px',
+                                    background: 'rgba(196, 196, 196, 0.7)',
+                                    borderRadius: '4px'
+                                }}
+                            >ตรวจจับคีย์เวิร์ด</Button>
+                        </div>
                     </div>
                 </Card>
-                <Card className='space-between' sx={{ minWidth: 275, marginBottom: '41px' }}>
-                    <div className='input-card'>
+                <Card className='row-space-between' sx={{ minWidth: 275, marginBottom: '41px' }}>
+                    <div className='input-card' style={{ width: '47%' }}>
                         <p>ขั้นตอนที่ 2: เลือกอาการที่ต้องการนำไปวินิจฉัย</p>
                         <Card>
-                            <p>คีย์เวิร์ด</p>
-                            <List>
+                            <Table aria-label="spanning table">
+                                <TableHead>
+                                    <TableRow style={{ backgroundColor: '#ABC4FF' }}>
+                                        <TableCell
+                                            align="center"
+                                            style={{ color: 'white' }}
+                                        >
+                                            คีย์เวิร์ดที่เกี่ยวข้อง
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {keywords.map((row, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell
+                                                style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}
+                                                onClick={() => handleKeywordListItemClick(index)}
+                                            >
+                                                <div className='row-align-items-center'>
+                                                    <AddCircleOutlineIcon />
+                                                    <div style={{ marginLeft: '6px' }}>{row}</div>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 25, 100]}
+                                component="div"
+                                count={diagnosisResult.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </Card>
+                    </div>
+                    <div className='col-justify-content-center'>
+                        <ArrowForwardIcon />
+                        <ArrowBackIcon />
+                    </div>
+                    <div className='input-card' style={{ width: '47%' }}>
+                        <p>ขั้นตอนที่ 3: กดปุ่ม “วินิจฉัย” เพื่อวินิจฉัยแยกโรคตามอาการ</p>
+                        <Card sx={{ padding: '10px', width: '100%' }}>
+                            <div style={{ margin: '15px' }}>
                                 {
-                                    keywords.map((keyword, index) => {
+                                    selectedKeywords.map((keyword, index) => {
                                         return (
-                                            <ListItem key={index}>
-                                                <ListItemIcon
-                                                    onClick={() => handleKeywordListItemClick(index)}
-                                                >
-                                                    <FolderIcon />
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                    primary={keyword}
-                                                />
-                                            </ListItem>
+                                            <Chip key={index} label={keyword} onDelete={() => handleUnselectKeyword(index)} variant="outlined" sx={{
+                                                borderColor: '#4E75D0',
+                                                borderRadius: '7px',
+                                                marginRight: '7px',
+                                                marginBottom: '7px',
+                                                height: '31px',
+                                                '& .MuiChip-deleteIcon': {
+                                                    color: '#4E75D0',
+                                                },
+                                            }} />
                                         )
                                     })
                                 }
-                            </List>
-                        </Card>
-                    </div>
-                    <div className='input-card'>
-                        <p>ขั้นตอนที่ 3: กดปุ่ม “วินิจฉัย” เพื่อวินิจฉัยแยกโรคตามอาการ</p>
-                        <Card>
-                            <p>คีย์เวิร์ด</p>
-                            {
-                                selectedKeywords.map((keyword, index) => {
-                                    return (
-                                        <Chip key={index} label={keyword} onDelete={() => handleUnselectKeyword(index)} />
-                                    )
-                                })
-                            }
-                            <Button variant="contained" onClick={sendSelectedKeyword}>วินิจฉัย</Button>
+                            </div>
+                            <div className='row-space-around'>
+                                <Button
+                                    variant="contained"
+                                    onClick={sendSelectedKeyword}
+                                    sx={{
+                                        width: '162.72px',
+                                        background: 'rgba(196, 196, 196, 0.7)',
+                                        borderRadius: '4px'
+                                    }}
+                                >วินิจฉัย</Button>
+                            </div>
                         </Card>
                     </div>
                 </Card>
-
-
                 <p className='section-title'>ตารางการวินิจฉัยแยกโรค</p>
                 <Card>
                     <TableContainer>
@@ -173,27 +217,34 @@ function MainScreen() {
                                                 <div style={{ width: '100%' }}>
                                                     {console.log('row.keyword[key]', row.keyword[key])}
                                                     {index !== 0 && <Divider />}
-                                                    <div style={{ padding: '8px' }}>
-                                                        <span >{key}: </span>
-                                                        {
-                                                            row.keyword[key].map((keyword: string, i: number) => {
-                                                                return (
-                                                                    <>
-                                                                        {index === 2 && i === 0 && <Tooltip title="อาการที่พบในโรคนี้ แต่ไม่พบในตัวกรอง" placement="top">
-                                                                            <InfoOutlinedIcon />
-                                                                        </Tooltip>}
-                                                                        <Chip key={i} label={keyword} variant="outlined" sx={{
-                                                                            borderColor: 'black',
-                                                                            borderRadius: '7px',
-                                                                            marginRight: '7px',
-                                                                            marginBottom: '7px',
-                                                                            height: '31px',
-                                                                        }} />
-                                                                    </>
+                                                    <div style={{ padding: '8px', display: 'flex', flexDirection: 'row' }}>
+                                                        <div style={{ width: '70px' }}>
+                                                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                                                {key}
+                                                                {key === 'ไม่พบ' && <Tooltip title="อาการที่พบในโรคนี้ แต่ไม่พบในตัวกรอง" placement="bottom">
+                                                                    <InfoOutlinedIcon />
+                                                                </Tooltip>}
+                                                                :
+                                                            </div>
+                                                        </div>
+                                                        <div className='row-align-items-center'>
+                                                            {
+                                                                row.keyword[key].map((keyword: string, i: number) => {
+                                                                    return (
+                                                                        <>
+                                                                            <Chip key={i} label={keyword} variant="outlined" sx={{
+                                                                                borderColor: 'black',
+                                                                                borderRadius: '7px',
+                                                                                marginRight: '7px',
+                                                                                marginBottom: '7px',
+                                                                                height: '31px',
+                                                                            }} />
+                                                                        </>
 
-                                                                )
-                                                            })
-                                                        }
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -203,16 +254,17 @@ function MainScreen() {
                                 ))}
                             </TableBody>
                         </Table>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={diagnosisResult.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
                     </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={diagnosisResult.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+
                 </Card>
             </div>
         </div >

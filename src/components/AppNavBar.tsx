@@ -11,9 +11,8 @@ export default function AppNavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <div className='space-between appbar align-items-center'>
+        <div className='space-between appbar row-align-items-center'>
           <span>SNOMED Diagnosis System</span>
-          <MenuIcon />
         </div>
       </AppBar>
     </Box>

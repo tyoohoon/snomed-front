@@ -5,6 +5,13 @@ $text-color: #737B7D;
 
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400');
 
+// * {
+//   border-width: 0.5px;
+//   border-color: bisque;
+//   border-style: solid;
+
+// }
+
 html {
   font-size: 100%;
 }
@@ -102,22 +109,29 @@ small,
   }
 }
 
-.space-around {
+.row-space-around {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.space-between {
+.row-space-between {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.align-items-center {
+.row-align-items-center {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.col-justify-content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .align-self-center {
@@ -152,7 +166,7 @@ small,
 }
 
 .mainscreen-container {
-  max-width: 750px;
+  max-width: 900px;
   margin: auto;
 }
 
@@ -168,7 +182,7 @@ small,
 .input-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
   margin: 0px 31.13px 10.19px;
 
   p {
