@@ -2,7 +2,7 @@ export const keywordList = ['ไอ', 'ไอแบบมีเสมหะ', '�
 
 interface Diagnosis {
     diagnosis: string;
-    probability: string;
+    probability: number;
     keyword: {
         [key: string]: Array<string>,
     };

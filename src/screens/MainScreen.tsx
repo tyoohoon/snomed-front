@@ -211,7 +211,7 @@ function MainScreen() {
                                 {diagnosisResult.map((row, index) => (
                                     <TableRow key={index}>
                                         <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.diagnosis}</TableCell>
-                                        <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.probability}</TableCell>
+                                        <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.probability.toFixed(2)}</TableCell>
                                         <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid', padding: 0 }}>
                                             {Object.keys(row.keyword).map((key, index) => (
                                                 <div style={{ width: '100%' }}>
