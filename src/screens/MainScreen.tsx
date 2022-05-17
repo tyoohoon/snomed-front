@@ -77,7 +77,7 @@ function MainScreen() {
         <div className='mainscreen-container'>
             <div>
                 <p className='section-title'>แบบฟอร์มการวินิจฉัยแยกโรคเบื้องต้นสำหรับบุคคลทั่วไป</p>
-                <Card variant="outlined" sx={{ minWidth: 275, marginBottom: '41px' }}>
+                <Card variant="outlined" sx={{ minWidth: 275, marginBottom: '41px', padding: '10px' }}>
                     <div className='input-card'>
                         <p style={{ alignSelf: 'flex-start' }}>ขั้นตอนที่ 1: ใส่ข้อความระบุอาการผู้ป่วย</p>
                         <TextField
@@ -102,7 +102,7 @@ function MainScreen() {
                         </div>
                     </div>
                 </Card>
-                <Card className='row-space-between' sx={{ minWidth: 275, marginBottom: '41px' }}>
+                <Card className='row-space-between' sx={{ minWidth: 275, marginBottom: '41px', padding: '10px' }}>
                     <div className='input-card' style={{ width: '47%' }}>
                         <p>ขั้นตอนที่ 2: เลือกอาการที่ต้องการนำไปวินิจฉัย</p>
                         <Card>
