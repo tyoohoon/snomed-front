@@ -54,6 +54,7 @@ function MainScreen() {
         }).then(function (response) {
             console.log(response.data.keywords);
             setKeywords(response.data.keywords)
+            setSelectedKeywords([])
         }).catch(function (error) {
             console.log('error from send_symptoms');
         });
@@ -214,11 +215,10 @@ function MainScreen() {
                                         <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid' }}>{row.probability.toFixed(2)}</TableCell>
                                         <TableCell style={{ borderWidth: 1, borderColor: '#C6CACC', borderStyle: 'solid', padding: 0 }}>
                                             {Object.keys(row.keyword).map((key, index) => (
-                                                <div style={{ width: '100%' }}>
-                                                    {console.log('row.keyword[key]', row.keyword[key])}
+                                                <div>
                                                     {index !== 0 && <Divider />}
                                                     <div style={{ padding: '8px', display: 'flex', flexDirection: 'row' }}>
-                                                        <div style={{ width: '70px' }}>
+                                                        <div style={{ width: '90px' }}>
                                                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                                                 {key}
                                                                 {key === 'ไม่พบ' && <Tooltip title="อาการที่พบในโรคนี้ แต่ไม่พบในตัวกรอง" placement="bottom">
@@ -227,7 +227,7 @@ function MainScreen() {
                                                                 :
                                                             </div>
                                                         </div>
-                                                        <div className='row-align-items-center'>
+                                                        <div className='row-align-items-center table-chip-container'>
                                                             {
                                                                 row.keyword[key].map((keyword: string, i: number) => {
                                                                     return (
@@ -236,7 +236,8 @@ function MainScreen() {
                                                                                 borderColor: 'black',
                                                                                 borderRadius: '7px',
                                                                                 marginRight: '7px',
-                                                                                marginBottom: '7px',
+                                                                                marginTop: '3px',
+                                                                                marginBottom: '3px',
                                                                                 height: '31px',
                                                                             }} />
                                                                         </>
