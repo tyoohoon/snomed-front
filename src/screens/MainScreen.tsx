@@ -3,11 +3,6 @@ import axios from 'axios';
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import TextField from '@mui/material/TextField'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import FolderIcon from '@mui/icons-material/Folder'
 import Chip from '@mui/material/Chip'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -36,12 +31,12 @@ function MainScreen() {
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
-    };
+    }
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-    };
+    }
 
     const handleInputSymtoms = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputSymtoms(event.target.value)
@@ -52,11 +47,11 @@ function MainScreen() {
                 symptoms: inputSymptoms
             }
         }).then(function (response) {
-            console.log(response.data.keywords);
             setKeywords(response.data.keywords)
             setSelectedKeywords([])
+            setDiagnosisResult([])
         }).catch(function (error) {
-            console.log('error from send_symptoms');
+            console.log(error);
         });
     }
     const handleKeywordListItemClick = (index: number) => {
@@ -68,17 +63,14 @@ function MainScreen() {
         selectedKeywords.splice(index, 1)
     }
     const sendSelectedKeyword = () => {
-        console.log('selectedKeywords', selectedKeywords)
-
         axios.get(get_diagnosis_result, {
             params: {
                 selected_keywords: selectedKeywords
             }
         }).then(function (response) {
-            console.log(response)
             setDiagnosisResult(response.data.diagnosis_result)
         }).catch(function (error) {
-            console.log('error from send_selected_keywords');
+            console.log(error);
         });
     }
     return (
@@ -91,7 +83,6 @@ function MainScreen() {
                         <TextField
                             id="user-input"
                             onChange={handleInputSymtoms}
-                            // placeholder='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
                             label='กรุณาใส่ข้อความระบุอาการผู้ป่วย..'
                             sx={{
                                 width: 1,
@@ -241,13 +232,11 @@ function MainScreen() {
                                                                                 height: '31px',
                                                                             }} />
                                                                         </>
-
                                                                     )
                                                                 })
                                                             }
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             ))}
                                         </TableCell>
@@ -265,11 +254,10 @@ function MainScreen() {
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </TableContainer>
-
                 </Card>
             </div>
         </div >
-    );
+    )
 }
 
 export default MainScreen
